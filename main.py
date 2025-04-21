@@ -1,6 +1,8 @@
 #IMPORTS
 from stats import word_counting
 from stats import characters_counting
+from stats import order_by_count
+from stats import filter
 
 #Function to transform a .txt in a long string
 def get_book_text (file_path) :
@@ -9,11 +11,19 @@ def get_book_text (file_path) :
     return path_as_string
 
 #MAIN
-book = get_book_text("books/frankenstein.txt") #Book is a long string of the full book
-words = book.split() #Words is a list of every word in book, separated
-number_of_words = word_counting(words) #Number of words is a count of the number of elements of words list
-characters = characters_counting(book)
+link = "books/frankenstein.txt"
+book = get_book_text(link) #Book is a long string of the full book
+words = book.split() #Renders the book string in a list of word elements
+number_of_words = word_counting(words) #Counts the number of elements of words list
+characters = characters_counting(book) #List of characters and relative number of apparition
+ordered_by_count = order_by_count(characters) #List of chars ordered by count
+filtered_list = filter(ordered_by_count) #Filters the list, eliminating non-alphanumerical values
 
-print(f"{number_of_words} words found in the document")
-print(f"Number of characters: {characters}")
-
+print("============ BOOKBOT ============")
+print(f"Analyzing book found at {link}...")
+print("----------- Word Count ----------")
+print(f"Found {number_of_words} total words")
+print("--------- Character Count -------")
+for single_dict in filtered_list :
+    print(f"{single_dict["char"]}: {single_dict["count"]}")
+print("============= END ===============")
